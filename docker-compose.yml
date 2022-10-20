@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  master-node:
+    container_name: master
+    image: ansible-master
+    networks:
+      ansible:
+        ipv4_address: 192.168.0.2
+    volumes:
+      - type: bind
+        source: .
+        target: /root/ansible
+    tty: true
+  node-1:
+    container_name: node1
+    image: ansible-node
+    networks:
+      ansible:
+        ipv4_address: 192.168.0.3
+    tty: true
+  node-2:
+    container_name: node2
+    image: ansible-node
+    networks:
+      ansible:
+        ipv4_address: 192.168.0.4
+    tty: true
+  node-3:
+    container_name: node3
+    image: ansible-node
+    networks:
+      ansible:
+        ipv4_address: 192.168.0.5
+    tty: true
+  portainer:
+    container_name: portainer
+    image: portainer
+    networks:
+      ansible:
+        ipv4_address: 192.168.0.6
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+networks:
+  ansible:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1

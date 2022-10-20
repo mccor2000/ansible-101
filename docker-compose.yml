@@ -35,7 +35,7 @@ services:
     tty: true
   portainer:
     container_name: portainer
-    image: portainer
+    image: portainer/portainer-ce
     networks:
       ansible:
         ipv4_address: 192.168.0.6
